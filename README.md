@@ -29,10 +29,12 @@ let image = device.io().screenshot(
 device.shutdown()?;
 ```
 
-## Supported Operations
+## Operations
 
 The following operations are currently supported by this crate. For a full list
 of operations that are available in the original CLI, run `xcrun simctl`.
+
+### Supported Operations
 
 - [x] boot
 - [x] get_app_container
@@ -50,6 +52,8 @@ of operations that are available in the original CLI, run `xcrun simctl`.
 - [x] terminate
 - [x] ui
 - [x] uninstall
+
+### Unsupported Operations
 
 - [ ] addmedia
 - [ ] clone
