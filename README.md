@@ -1,5 +1,9 @@
 # Simctl
 
+[![Built Status](https://github.com/polyhorn/simctl/workflows/Build%20and%20Test/badge.svg)](https://github.com/polyhorn/simctl/actions)
+[![crates.io](https://img.shields.io/crates/v/simctl)](https://crates.io/crates/simctl)
+[![Docs.rs](https://docs.rs/simctl/badge.svg)](https://docs.rs/simctl/*/simctl/)
+
 This crate provides a safe wrapper around the `simctl` utility that ships with
 Xcode.
 
