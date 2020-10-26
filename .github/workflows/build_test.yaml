@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Print simctl list
+      run: xcrun simctl list --json
     - name: Build
       run: cargo build --verbose
     - name: Run tests
