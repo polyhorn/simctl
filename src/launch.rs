@@ -102,7 +102,7 @@ impl<'a> Launch<'a> {
 
         command.args(&self.args);
 
-        command.status()?.validate()
+        command.output()?.validate()
     }
 }
 

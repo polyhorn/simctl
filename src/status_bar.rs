@@ -81,7 +81,7 @@ impl StatusBar {
             .command("status_bar")
             .arg(&self.device.udid)
             .arg("clear")
-            .status()?
+            .output()?
             .validate()
     }
 
@@ -242,7 +242,7 @@ impl StatusBarOverride {
             command.arg("--batteryLevel").arg(level.to_string());
         }
 
-        command.status()?.validate()
+        command.output()?.validate()
     }
 }
 

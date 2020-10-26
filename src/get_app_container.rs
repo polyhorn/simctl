@@ -40,7 +40,7 @@ impl Device {
             .stdout(Stdio::piped())
             .output()?;
 
-        output.status.validate()?;
+        let output = output.validate_with_output()?;
 
         Ok(Path::new(String::from_utf8(output.stdout)?.trim()).to_path_buf())
     }

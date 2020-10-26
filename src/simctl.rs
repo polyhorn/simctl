@@ -51,8 +51,8 @@ impl Simctl {
     pub fn command(&self, name: &str) -> Command {
         let mut command = Command::new(self.developer_dir.join("usr/bin/simctl"));
         command.arg(name);
-        command.stdout(Stdio::null());
-        command.stderr(Stdio::null());
+        command.stdout(Stdio::piped());
+        command.stderr(Stdio::piped());
         command
     }
 
@@ -63,7 +63,7 @@ impl Simctl {
             .arg(self.developer_dir.join("Simulator.app"))
             .stdout(Stdio::null())
             .stderr(Stdio::null())
-            .status()?
+            .output()?
             .validate()
     }
 }

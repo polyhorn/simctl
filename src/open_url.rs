@@ -7,7 +7,7 @@ impl Device {
             .command("openurl")
             .arg(&self.udid)
             .arg(path)
-            .status()?
+            .output()?
             .validate()
     }
 }

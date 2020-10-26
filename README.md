@@ -1,6 +1,6 @@
 # Simctl
 
-This crates provides a safe wrapper around the `simctl` utility that ships with
+This crate provides a safe wrapper around the `simctl` utility that ships with
 Xcode.
 
 ---

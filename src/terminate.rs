@@ -8,7 +8,7 @@ impl Device {
             .command("terminate")
             .arg(&self.udid)
             .arg(bundle_id)
-            .status()?
+            .output()?
             .validate()
     }
 }

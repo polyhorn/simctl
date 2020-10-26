@@ -110,7 +110,7 @@ impl IO {
             .stdout(Stdio::piped())
             .output()?;
 
-        output.status.validate()?;
+        let output = output.validate_with_output()?;
 
         Ok(output.stdout)
     }

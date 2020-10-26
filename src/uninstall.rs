@@ -7,7 +7,7 @@ impl Device {
             .command("uninstall")
             .arg(&self.udid)
             .arg(&bundle_id)
-            .status()?
+            .output()?
             .validate()
     }
 }

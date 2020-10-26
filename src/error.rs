@@ -1,4 +1,4 @@
-use std::process::ExitStatus;
+use std::process::{ExitStatus, Output};
 
 /// Error that is returned when the CLI does not successfully complete a
 /// request, or when the library encountered a problem while generating the
@@ -6,7 +6,18 @@ use std::process::ExitStatus;
 #[derive(Debug)]
 pub enum Error {
     /// This error is returned when the CLI exits with a non-zero exit code.
-    ExitStatus(ExitStatus),
+    Output {
+        /// Contains the output written to stdout before the CLI exited with a
+        /// non-zero exit code.
+        stdout: String,
+
+        /// Contains the output written to stderr before the CLI exited with a
+        /// non-zero exit code.
+        stderr: String,
+
+        /// Contains the exit status.
+        status: ExitStatus,
+    },
 
     /// This error is returned when the library failed spawning a new process
     /// that runs the CLI. Most likely, this is caused by an incorrect Xcode
@@ -50,13 +61,23 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 pub trait Validate {
     fn validate(self) -> Result<()>;
+    fn validate_with_output(self) -> Result<Output>;
 }
 
-impl Validate for ExitStatus {
+impl Validate for Output {
     fn validate(self) -> Result<()> {
-        match self.success() {
-            true => Ok(()),
-            false => Err(Error::ExitStatus(self)),
+        let _ = self.validate_with_output()?;
+        Ok(())
+    }
+
+    fn validate_with_output(self) -> Result<Output> {
+        match self.status.success() {
+            true => Ok(self),
+            false => Err(Error::Output {
+                stdout: String::from_utf8(self.stdout).unwrap(),
+                stderr: String::from_utf8(self.stderr).unwrap(),
+                status: self.status,
+            }),
         }
     }
 }

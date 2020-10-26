@@ -93,7 +93,7 @@ impl Privacy {
             .arg("grant")
             .arg(service.to_string())
             .arg(bundle_id)
-            .status()?
+            .output()?
             .validate()
     }
 
@@ -107,7 +107,7 @@ impl Privacy {
             .arg("revoke")
             .arg(service.to_string())
             .arg(bundle_id)
-            .status()?
+            .output()?
             .validate()
     }
 
@@ -122,7 +122,7 @@ impl Privacy {
             .arg("reset")
             .arg(service.to_string())
             .arg(bundle_id)
-            .status()?
+            .output()?
             .validate()
     }
 
@@ -135,7 +135,7 @@ impl Privacy {
             .arg(&self.device.udid)
             .arg("reset")
             .arg(service.to_string())
-            .status()?
+            .output()?
             .validate()
     }
 }

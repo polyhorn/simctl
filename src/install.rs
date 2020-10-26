@@ -13,7 +13,7 @@ impl Device {
             .command("install")
             .arg(&self.udid)
             .arg(&path)
-            .status()?
+            .output()?
             .validate()
     }
 }

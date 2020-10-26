@@ -24,7 +24,7 @@ impl Keychain {
             .command("keychain")
             .arg(&self.device.udid)
             .arg("reset")
-            .status()?
+            .output()?
             .validate()
     }
 }

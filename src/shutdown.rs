@@ -6,7 +6,7 @@ impl Device {
         self.simctl()
             .command("shutdown")
             .arg(&self.info().udid)
-            .status()?
+            .output()?
             .validate()
     }
 }

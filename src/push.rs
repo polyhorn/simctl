@@ -138,7 +138,7 @@ impl Device {
             serde_json::to_writer(stdin, push)?;
         }
 
-        process.wait()?.validate()
+        process.wait_with_output()?.validate()
     }
 }
 

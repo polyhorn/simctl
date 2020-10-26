@@ -33,7 +33,7 @@ impl Device {
                 envs.into_iter()
                     .map(|(key, value)| (format!("SIMCTL_CHILD_{}", key), value)),
             )
-            .status()?
+            .output()?
             .validate()
     }
 }

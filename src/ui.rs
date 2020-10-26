@@ -47,7 +47,7 @@ impl UI {
             .stdout(Stdio::piped())
             .output()?;
 
-        output.status.validate()?;
+        let output = output.validate_with_output()?;
 
         let appearance = String::from_utf8(output.stdout)?.trim().to_owned();
         Ok(match appearance.as_str() {
@@ -71,7 +71,7 @@ impl UI {
             .arg(&self.device.udid)
             .arg("appearance")
             .arg(appearance)
-            .status()?
+            .output()?
             .validate()
     }
 }
