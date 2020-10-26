@@ -5,7 +5,8 @@ Xcode.
 
 ---
 
-🚨 __Important:__ this library only works if Xcode is installed.
+🚨 __Important:__ this library only works if Xcode is installed and currently
+only works with Xcode 12.
 
 ---
 

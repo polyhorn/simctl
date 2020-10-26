@@ -8,6 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  DEVELOPER_DIR: /Applications/Xcode_12.0.1.app/Contents/Developer
 
 jobs:
   build:
