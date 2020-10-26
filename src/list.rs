@@ -139,8 +139,9 @@ pub struct DeviceInfo {
     #[serde(rename = "isAvailable")]
     pub is_available: bool,
 
-    /// This corresponds to [`DeviceType::identifier`].
-    #[serde(rename = "deviceTypeIdentifier")]
+    /// This corresponds to [`DeviceType::identifier`]. This is missing for
+    /// devices whose device type has since been removed from Xcode.
+    #[serde(default, rename = "deviceTypeIdentifier")]
     pub device_type_identifier: String,
 
     /// Contains the state of this device.
