@@ -58,7 +58,10 @@ mod tests {
     fn test_get_app_container() -> Result<()> {
         mock::device()?.boot()?;
 
-        assert_eq!(mock::device()?.get_app_container("com.apple.mobilesafari", &Container::App)?.to_str().unwrap(), "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/Applications/MobileSafari.app");
+        let path = mock::device()?.get_app_container("com.apple.mobilesafari", &Container::App)?;
+        assert!(path.ends_with(
+            "iOS.simruntime/Contents/Resources/RuntimeRoot/Applications/MobileSafari.app"
+        ));
         let _ = mock::device()?.get_app_container("com.apple.mobilesafari", &Container::Data);
 
         mock::device()?.shutdown()?;
