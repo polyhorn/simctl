@@ -102,6 +102,8 @@ impl<'a> Launch<'a> {
             command.stderr(Stdio::inherit());
         }
 
+        command.envs(self.envs.iter().map(|(k, v)| (k, v)));
+
         command.arg(&self.device.udid);
         command.arg(self.bundle_id);
 
