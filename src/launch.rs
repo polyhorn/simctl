@@ -3,6 +3,7 @@
 use std::ffi::OsStr;
 use std::fmt::Display;
 use std::path::Path;
+use std::process::Stdio;
 
 use super::{Device, Result, Validate};
 
@@ -91,10 +92,14 @@ impl<'a> Launch<'a> {
 
         if let Some(stdout) = self.stdout {
             command.arg(format!("--stdout={}", stdout.display()));
+        } else {
+            command.stdout(Stdio::inherit());
         }
 
         if let Some(stderr) = self.stderr {
             command.arg(format!("--stderr={}", stderr.display()));
+        } else {
+            command.stderr(Stdio::inherit());
         }
 
         command.arg(&self.device.udid);
