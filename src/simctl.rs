@@ -60,7 +60,11 @@ impl Simctl {
     /// (in case of multiple Xcode installations).
     pub fn open(&self) -> Result<()> {
         Command::new("open")
-            .arg(self.developer_dir.join("Simulator.app"))
+            .arg(
+                self.developer_dir
+                    .join("Applications")
+                    .join("Simulator.app"),
+            )
             .stdout(Stdio::null())
             .stderr(Stdio::null())
             .output()?
