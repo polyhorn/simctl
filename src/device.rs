@@ -4,7 +4,7 @@ use super::list::DeviceInfo;
 use super::Simctl;
 
 /// Wrapper around a single device returned by `simctl`.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct Device {
     simctl: Simctl,
     info: DeviceInfo,

@@ -4,7 +4,7 @@ use std::process::{Command, Stdio};
 use super::{Result, Validate};
 
 /// Wrapper around the `simctl` utility.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct Simctl {
     developer_dir: PathBuf,
 }
@@ -42,6 +42,7 @@ impl Simctl {
     /// path. Use this function if Xcode is not installed in the default path or
     /// if you want to distinguish between multiple installations of Xcode (e.g.
     /// stable and beta).
+    #[allow(unconditional_recursion)]
     pub fn with_xcode(path: &Path) -> Simctl {
         Simctl::with_xcode(&path.join("Contents/Developer"))
     }

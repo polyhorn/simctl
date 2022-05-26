@@ -1,6 +1,6 @@
 //! Supporting types for the `simctl list` subcommand.
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::process::Stdio;
@@ -8,7 +8,7 @@ use std::process::Stdio;
 use super::{Device, Result, Simctl};
 
 /// Indicates the state of a device.
-#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]
 pub enum DeviceState {
     /// Indicates that the device is booted.
     Booted,
@@ -40,7 +40,7 @@ pub enum DevicePairState {
 }
 
 /// Information about a device type.
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+#[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]
 pub struct DeviceType {
     /// Contains the minimum runtime version that this device type supports.
     /// This is relevant for devices that are newer than the oldest runtime that
@@ -109,7 +109,7 @@ pub struct Runtime {
 }
 
 /// Information about a device.
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq)]
+#[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]
 pub struct DeviceInfo {
     /// Note: this field is not directly present in JSON. Instead, the JSON
     /// representation is a hashmap of runtime IDs (keys) and devices (values)
