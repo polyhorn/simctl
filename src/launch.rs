@@ -1,9 +1,9 @@
 //! Supporting types for the `simctl launch` subcommand.
 
-use std::ffi::OsStr;
 use std::fmt::Display;
 use std::path::Path;
 use std::process::Stdio;
+use std::{ffi::OsStr, process::Child};
 
 use super::{Device, Result, Validate};
 
@@ -13,6 +13,7 @@ pub struct Launch<'a> {
     device: Device,
     bundle_id: &'a str,
     wait_for_debugger: bool,
+    terminate_running_process: bool,
     use_pty: Option<bool>,
     stdout: Option<&'a Path>,
     stderr: Option<&'a Path>,
@@ -24,6 +25,13 @@ impl<'a> Launch<'a> {
     /// Indicates whether the application should wait for a debugger to attach.
     pub fn wait_for_debugger(&mut self, wait: bool) -> &mut Launch<'a> {
         self.wait_for_debugger = wait;
+        self
+    }
+
+    /// Indicates whether the application should terminate previous launched app as well as whether
+    /// it should terminate on exit.
+    pub fn terminate_running_process(&mut self, terminate: bool) -> &mut Launch<'a> {
+        self.terminate_running_process = terminate;
         self
     }
 
@@ -111,6 +119,42 @@ impl<'a> Launch<'a> {
 
         command.output()?.validate()
     }
+
+    /// Spawn launch.
+    ///
+    /// like execute but instead return a child handler, however unlike exec,
+    ///
+    /// This more convinenet when you want to listen to stdout or stderr and managed the process it
+    /// self.
+    ///
+    /// NOTE: This will ignore stdout and stderr configuration.
+    /// NOTE: This will set --console to true by default unless use_pty is true.
+    ///
+    pub fn spawn(&mut self) -> Result<Child> {
+        let mut command = self.device.simctl().command("launch");
+
+        if self.wait_for_debugger {
+            command.arg("--wait-for-debugger");
+        }
+
+        if self.terminate_running_process {
+            command.arg("--terminate-running-process");
+        }
+
+        match self.use_pty {
+            Some(true) => command.arg("--console-pty"),
+            _ => command.arg("--console"),
+        };
+
+        command.stderr(Stdio::piped());
+        command.stdout(Stdio::piped());
+        command.envs(self.envs.iter().map(|(k, v)| (k, v)));
+        command.arg(&self.device.udid);
+        command.arg(self.bundle_id);
+        command.args(&self.args);
+
+        Ok(command.spawn()?)
+    }
 }
 
 impl Device {
@@ -121,6 +165,7 @@ impl Device {
             device: self.clone(),
             bundle_id,
             wait_for_debugger: false,
+            terminate_running_process: false,
             use_pty: Some(false),
             stdout: None,
             stderr: None,
